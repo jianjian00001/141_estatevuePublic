@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itmk.web.fee_park.mapper.FeeParkMapper">
+    <select id="getList" resultType="com.itmk.web.fee_park.entity.FeePark">
+        select lu.login_name,lu.phone,fp.*,pl.park_name,pl.park_type from fee_park as fp
+        left join live_user as lu on lu.user_id = fp.user_id
+        left join parking_list pl on pl.park_id = fp.park_id
+        where 1=1
+        <if test="userName !=null and userName !=''">
+            and lu.login_name like concat('%',#{userName},'%')
+        </if>
+        <if test="parkName !=null and parkName !=''">
+            and pl.park_name like concat('%',#{parkName},'%')
+        </if>
+    </select>
+</mapper>
